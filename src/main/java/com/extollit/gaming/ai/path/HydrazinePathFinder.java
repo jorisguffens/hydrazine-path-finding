@@ -972,10 +972,14 @@ public class HydrazinePathFinder implements IVersionedReadable, IVersionedWritea
 
         final Coords coords = current.key;
         final Node
-                west = cachedPassiblePointNear(coords.x - 1, coords.y, coords.z, coords),
-                east = cachedPassiblePointNear(coords.x + 1, coords.y, coords.z, coords),
                 north = cachedPassiblePointNear(coords.x, coords.y, coords.z - 1, coords),
-                south = cachedPassiblePointNear(coords.x, coords.y, coords.z + 1, coords);
+                northeast = cachedPassiblePointNear(coords.x + 1, coords.y, coords.z - 1, coords),
+                east = cachedPassiblePointNear(coords.x + 1, coords.y, coords.z, coords),
+                southeast = cachedPassiblePointNear(coords.x + 1, coords.y, coords.z + 1, coords),
+                south = cachedPassiblePointNear(coords.x, coords.y, coords.z + 1, coords),
+                southwest = cachedPassiblePointNear(coords.x - 1, coords.y, coords.z + 1, coords),
+                west = cachedPassiblePointNear(coords.x - 1, coords.y, coords.z, coords),
+                northwest = cachedPassiblePointNear(coords.x - 1, coords.y, coords.z - 1, coords);
         final Node
                 up, down;
 
@@ -986,7 +990,7 @@ public class HydrazinePathFinder implements IVersionedReadable, IVersionedWritea
         } else
             up = down = null;
 
-        final boolean found = applyPointOptions(current, up, down, west, east, north, south);
+        final boolean found = applyPointOptions(current, up, down, north, northeast, east, southeast, south, southwest, west, northwest);
 
         if (!found) {
             final com.extollit.linalg.mutable.AxisAlignedBBox
